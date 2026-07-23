@@ -12,7 +12,7 @@
 #define TUSH_VERSION_NO "1.0.0"
 
 // GLOBAL VARIABLES
-char *g_prompt = "▶  ";        // prompt is global so users can change it
+char *g_prompt;        // prompt is global so users can change it
 
 // List of builtin commands, followed by their corresponding functions.
 char *builtin_str[] = {
@@ -194,9 +194,14 @@ void tush_loop(void)
 {
     char *line;
     char **args;
+    char *cwd;
     int status;
 
+    g_prompt = (char *)malloc(64 * sizeof(char));
+
     do {
+	cwd = getcwd(NULL, 0);
+	sprintf(g_prompt, "(pid=%d)%s$ ", getpid(), cwd);
         printf("%s", g_prompt);
 
         line = tush_read_line();
@@ -208,8 +213,12 @@ void tush_loop(void)
         line = NULL;
         free(args);
         args = NULL;
+	free(cwd);
+	cwd = NULL;
 
     } while (status);
+
+    free(g_prompt);
 }
 
 int main()
