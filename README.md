@@ -1,4 +1,4 @@
-# tush — Turtle Shell
+# tush — Turtle Shell :turtle:
 
 A simplistic shell implementation built from scratch in C to learn systems programming concepts.
 
